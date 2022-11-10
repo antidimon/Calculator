@@ -3,7 +3,6 @@ package Lessons;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static Lessons.Frames.label1;
@@ -207,36 +206,17 @@ public class Buttons extends JButton {
         else {memoryNum = memoryNum*10 + number;}
 
         if (mainArray.size() == 0){
-            numberArray.set(0, memoryNum);
+            numberArray.add(memoryNum);
+        }
+        else if (mainArray.size() <= 2){
+            numberArray.set(0, operations(numberArray.get(0), operationsArray.get(0), memoryNum));
         }
         else {
-            if (mainArray.size() == 2){
-                numberArray.set(0, numberArray.get(0))
-            }
             // private final String[] operations = {"//", "%", "/", "*", "-", "+"};
             for (int i = 0; i < mainArray.size(); i++){
                 int j = numberArray.size();
                 if (operationsList.contains(mainArray.get(i))){
-                    switch (mainArray.get(i)){
-                        case "//" -> {
-                            numberArray.set(j-1, (double) Integer.parseInt(String.valueOf(numberArray.get(i-2))) / Integer.parseInt(String.valueOf(numberArray.get(i-1))));
-                        }
-                        case "%" -> {
-                            numberArray.set(j-2, numberArray.get(j-2) % numberArray.get(j-1));
-                        }
-                        case "/" -> {
-                            numberArray.set(j-2, numberArray.get(j-2) / numberArray.get(j-1));
-                        }
-                        case "*" -> {
-                            numberArray.set(j-2, numberArray.get(j-2) * numberArray.get(j-1));
-                        }
-                        case "-" -> {
-                            numberArray.set(j-2, numberArray.get(j-2) - numberArray.get(j-1));
-                        }
-                        case "+" -> {
-                            numberArray.set(j-2, numberArray.get(j-2) + numberArray.get(j-1));
-                        }
-                    }
+                    numberArray.set(j-2, operations(numberArray.get(j-2), mainArray.get(i), numberArray.get(j-1)));
                     numberArray.remove(j-1);
                 }
                 else {
@@ -244,9 +224,32 @@ public class Buttons extends JButton {
                 }
             }
         }
+        label2.setText(String.valueOf(numberArray.get(0)));
     }
     private void otmenaDeystv(){
 
     }
-    private double operations (double )
+    private double operations (double number1, String operation, double number2){
+        switch (operation){
+            case "//" -> {
+                return (double) Integer.parseInt(String.valueOf(number1)) / Integer.parseInt(String.valueOf(number2));
+            }
+            case "%" -> {
+                return number1 % number2;
+            }
+            case "/" -> {
+                return number1 / number2;
+            }
+            case "*" -> {
+                return number1 * number2;
+            }
+            case "-" -> {
+                return number1 - number2;
+            }
+            case "+" -> {
+                return number1 + number2;
+            }
+            default -> {return 0;}
+        }
+    }
 }
