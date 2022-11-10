@@ -11,7 +11,7 @@ import static Lessons.Frames.label2;
 public class Buttons extends JButton {
     public static int commaStatic, commaInt;
     public static String memoryStr = "";
-    public static double memoryNum = 0, memoryVar = 0;
+    public static double memoryNum = 0;
     private final String[] symbols = {"C", "//", "", "⌫", "√", "()", "%", "/", "7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "+", "+/-", "0", ",", "="};
     private final String[] operations = {"//", "%", "/", "*", "-", "+"};
     private final ArrayList<String> operationsList = new ArrayList<>(List.of(operations));
@@ -35,6 +35,7 @@ public class Buttons extends JButton {
                 memoryStr = "";
                 mainArray.clear();
                 operationsArray.clear();
+                numberArray.clear();
                 memoryNum = 0;
                 commaInt = 0;
                 commaStatic = 0;
@@ -205,26 +206,7 @@ public class Buttons extends JButton {
         }
         else {memoryNum = memoryNum*10 + number;}
 
-        if (mainArray.size() == 0){
-            numberArray.add(memoryNum);
-        }
-        else if (mainArray.size() <= 2){
-            numberArray.set(0, operations(numberArray.get(0), operationsArray.get(0), memoryNum));
-        }
-        else {
-            // private final String[] operations = {"//", "%", "/", "*", "-", "+"};
-            for (int i = 0; i < mainArray.size(); i++){
-                int j = numberArray.size();
-                if (operationsList.contains(mainArray.get(i))){
-                    numberArray.set(j-2, operations(numberArray.get(j-2), mainArray.get(i), numberArray.get(j-1)));
-                    numberArray.remove(j-1);
-                }
-                else {
-                    numberArray.set(j, Double.parseDouble(mainArray.get(i)));
-                }
-            }
-        }
-        label2.setText(String.valueOf(numberArray.get(0)));
+        makeAnswer();
     }
     private void otmenaDeystv(){
 
@@ -251,5 +233,35 @@ public class Buttons extends JButton {
             }
             default -> {return 0;}
         }
+    }
+    public void  makeAnswer(){
+        if (mainArray.size() == 0){
+            numberArray.add(memoryNum);
+        }
+        else if (mainArray.size() == 1){
+            numberArray.set(0, operations(numberArray.get(0), operationsArray.get(0), memoryNum));
+        }
+        else {
+            // private final String[] operations = {"//", "%", "/", "*", "-", "+"};
+            numberArray.clear();
+            for (String s : mainArray) {
+                int j = numberArray.size();
+                if (operationsList.contains(s)) {
+                    numberArray.set(j - 2, operations(numberArray.get(j - 2), s, numberArray.get(j - 1)));
+                    numberArray.remove(j - 1);
+                }
+                else {
+                    numberArray.add(Double.parseDouble(s));
+                }
+            }
+            if (operationsArray.size() == 1) {
+                numberArray.set(0, operations(numberArray.get(0), operationsArray.get(0), memoryNum));
+            }
+            else {
+                numberArray.set(1, operations(numberArray.get(1), operationsArray.get(1), memoryNum));
+                numberArray.set(0, operations(numberArray.get(0), operationsArray.get(0), numberArray.get(1)));
+            }
+        }
+        label2.setText(String.valueOf(numberArray.get(0)));
     }
 }
