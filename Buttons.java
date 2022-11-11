@@ -15,7 +15,7 @@ public class Buttons extends JButton {
         this.setFont(new Font("<html>", Font.BOLD, 20));
         this.addActionListener(e -> Functional.keyPressed(label1, label2,symbols[numberOfSymbol]));
         if (symbols[numberOfSymbol].equals("=")){
-            this.setBackground(Color.GREEN);
+            this.setBackground(Color.YELLOW);
         }
     }
 }
