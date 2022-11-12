@@ -130,7 +130,7 @@ public class Functional {
 
     private static void memoryNumber(double number) {
         //Составление числа
-        if (mainArray.size() == 0) {
+        if (numberArray.size() == 0) {
             memoryNum = number;
         }
         //Числа с запятой
@@ -230,9 +230,13 @@ public class Functional {
 
     public static void makeAnswer() {
         double num = memoryNum;
-        if (memorySqrt == 1){num = Math.sqrt(memoryNum);}
-        if (mainArray.size() == 0) {
+        if (memorySqrt == 1) {
+            num = Math.sqrt(memoryNum);
+        }
+        if (numberArray.size() == 0) {
             numberArray.add(num);
+        } else if (numberArray.size() == 1 && operationsArray.size() == 0) {
+            numberArray.set(0, num);
         } else if (mainArray.size() == 1 && memorySqrt == 1) {
             if (memoryForSqrt != 0) {
                 numberArray.set(0, operations(memoryForSqrt, operationsArray.get(0), num));
@@ -240,8 +244,7 @@ public class Functional {
                 memoryForSqrt = numberArray.get(0);
                 numberArray.set(0, operations(numberArray.get(0), operationsArray.get(0), num));
             }
-        }
-        else if (mainArray.size() == 1){
+        } else if (mainArray.size() == 1){
             numberArray.set(0,operations(numberArray.get(0), operationsArray.get(0), num));
         }else {
             // private final String[] operations = {"//", "%", "/", "*", "-", "+"};
